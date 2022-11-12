@@ -1,5 +1,6 @@
 from __future__ import print_function
 
+import datetime
 import os.path
 
 from google.auth.transport.requests import Request
@@ -59,3 +60,12 @@ class GCalManager:
             print('Unknown error')
 
         return event
+    
+    def get_next_events(self, n):
+        now = datetime.datetime.utcnow().isoformat() + 'Z'  # 'Z' indicates UTC time
+        events_result = self.service.events().list(calendarId=self.calendar_id, timeMin=now,
+                                              maxResults=n, singleEvents=True,
+                                              orderBy='startTime').execute()
+        events = events_result.get('items', [])
+        return events
+
