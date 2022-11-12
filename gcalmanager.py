@@ -85,6 +85,6 @@ class GCalManager:
         created = self.service.events().quickAdd(calendarId=self.calendar_id, text=text).execute()
         return created
 
-    def update(self, event_id, body):
+    def update_event(self, event_id, body):
         updated = self.service.events().quickAdd(calendarId=self.calendar_id, evendId=event_id, body=body).execute()
         return updated
