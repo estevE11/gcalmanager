@@ -19,5 +19,3 @@ gcal.create_event("Test event name", "Test description", "12:00", "17:00", "2022
 - Update event
 - Delete event
 - Move event to another calendar
-
-It currently only supports creating an event because is the only one I needed 🤡
