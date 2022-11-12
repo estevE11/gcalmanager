@@ -4,5 +4,3 @@ calendar_id = "c_6qimrdfv0qrflqq864unsolkis@group.calendar.google.com"
 
 gcal = GCalManager(calendar_id)
 
-nextevents = gcal.get_next_events(5)
-print(nextevents)

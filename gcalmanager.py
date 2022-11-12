@@ -69,3 +69,6 @@ class GCalManager:
         events = events_result.get('items', [])
         return events
 
+    def delete_event(self, event_id):
+        deleted = self.service.events().delete(calendarId=self.calendar_id, eventId=event_id).execute()
+        return deleted
