@@ -80,3 +80,7 @@ class GCalManager:
     def move_event(self, event_id, destination_calendar_id):
         moved = self.service.events().move(calendarId=self.calendar_id, eventId=event_id, destination=destination_calendar_id).execute()
         return moved
+
+    def quickAdd(self, text):
+        created = self.service.events().quickAdd(calendarId=self.calendar_id, text=text).execute()
+        return created
