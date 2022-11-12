@@ -13,6 +13,8 @@ gcal.create_event("Test event name", "Test description", "12:00", "17:00", "2022
 
 ## Features
 - Create event
-- Get n future events
+- Get next events
+- Get event
+- Delete event
 
 It currently only supports creating an event because is the only one I needed 🤡
