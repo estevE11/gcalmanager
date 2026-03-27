@@ -3,13 +3,10 @@ from __future__ import print_function
 import datetime
 import os.path
 
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
+from google.oauth2.service_account import Credentials
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-# Define the required API scopes
 SCOPES = ['https://www.googleapis.com/auth/calendar']
 
 class GCalManager:
@@ -20,34 +17,11 @@ class GCalManager:
         self.authenticate()
 
     def authenticate(self):
-        """Handles Google Calendar API authentication and token management."""
-        token_path = './token.json'
-        credentials_path = './credentials.json'
+        script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        service_account_path = os.path.join(script_dir, 'translator-294716-fae0969f6d9b.json')
 
-        try:
-            # Load existing credentials if available
-            if os.path.exists(token_path):
-                self.creds = Credentials.from_authorized_user_file(token_path, SCOPES)
-
-            # Refresh or obtain new credentials if needed
-            if not self.creds or not self.creds.valid:
-                if self.creds and self.creds.expired and self.creds.refresh_token:
-                    self.creds.refresh(Request())
-                else:
-                    # Start OAuth flow if no valid credentials exist
-                    flow = InstalledAppFlow.from_client_secrets_file(credentials_path, SCOPES)
-                    self.creds = flow.run_local_server(port=8080)
-
-                # Save the new credentials
-                with open(token_path, 'w') as token:
-                    token.write(self.creds.to_json())
-
-            # Initialize the Google Calendar API service
-            self.service = build('calendar', 'v3', credentials=self.creds)
-
-        except Exception as e:
-            print(f"Error during authentication: {e}")
-            self.service = None
+        self.creds = Credentials.from_service_account_file(service_account_path, scopes=SCOPES)
+        self.service = build('calendar', 'v3', credentials=self.creds)
 
     def set_calendar(self, calendar_id):
         self.calendar_id = calendar_id
@@ -61,11 +35,11 @@ class GCalManager:
                 'description': desc,
                 'start': {
                     'dateTime': date + 'T' + start_time + ":00",
-                    'timeZone': 'GMT+01:00',
+                    'timeZone': 'Europe/Madrid',
                 },
                 'end': {
                     'dateTime': date + 'T' + end_time + ":00",
-                    'timeZone': 'GMT+01:00',
+                    'timeZone': 'Europe/Madrid',
                 },
             }
 
